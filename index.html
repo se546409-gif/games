@@ -137,7 +137,7 @@ function initTetris(){
   function newB(){var b=[];for(var r=0;r<ROWS;r++){b.push([]);for(var c=0;c<COLS;c++)b[r].push(null)}return b}
   function rot(m){var N=m.length,r=[];for(var i=0;i<N;i++){r.push([]);for(var j=0;j<N;j++)r[i].push(m[N-1-j][i])}return r}
   function hit(b,s,ox,oy){for(var r=0;r<s.length;r++)for(var c=0;c<s[r].length;c++)if(s[r][c]){var nx=ox+c,ny=oy+r;if(nx<0||nx>=COLS||ny>=ROWS)return true;if(ny>=0&&b[ny][nx])return true}return false}
-  function lock(){var s=SHAPES[piece.type];for(var r=0;r<s.length;r++)for(var c=0;c<s[r].length;c++)if(s[r][c]){var by=piece.y+r;if(by<0){endT();return}board[by][piece.x+c]=piece.type}clearL();spawn()}
+  function lock(){var s=piece.shape;for(var r=0;r<s.length;r++)for(var c=0;c<s[r].length;c++)if(s[r][c]){var by=piece.y+r;if(by<0){endT();return}board[by][piece.x+c]=piece.type}clearL();spawn()}
   function clearL(){var cl=0;for(var r=ROWS-1;r>=0;r--)if(board[r].every(function(c){return c})){board.splice(r,1);board.unshift(Array(COLS).fill(null));cl++;r++}if(cl){lines+=cl;score+=LINE_SC[cl]*level;level=Math.floor(lines/10)+1;dropI=Math.max(80,800-(level-1)*70);upd()}}
   function spawn(){var t=nextType||nxt();nextType=nxt();var s=SHAPES[t];piece={type:t,shape:s,x:((COLS-s[0].length)/2)|0,y:t==='I'?-1:0};if(hit(board,piece.shape,piece.x,piece.y))endT()}
   function ghost(){var gy=piece.y;while(!hit(board,piece.shape,piece.x,gy+1))gy++;return gy}
